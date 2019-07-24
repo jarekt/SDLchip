@@ -1,0 +1,16 @@
+#this script takes a file and makes it into a c string in a header file
+file_name = "tetris.ch8"
+newfile_name = "tetris.h"
+
+start_string = '#define LOAD_STRING\nconst char import_string[] = {'
+end_string = '};'
+
+oldFile = open(file_name, "rb")
+oldFile = oldFile.read()
+oldFile = "".join( hex(x) +"," for x in oldFile)
+oldFile = start_string + oldFile + end_string
+newFile = open(newfile_name, "wt")
+newFile.write(oldFile)
+newFile.close()
+
+print(oldFile)
