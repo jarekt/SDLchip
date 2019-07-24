@@ -96,6 +96,7 @@ char getEvents(char b_wait)
             case SDLK_d:
                 key[9] = 1;
                 return 9;
+            case SDLK_y:
             case SDLK_z:
                 key[10] = 1;
                 return 10;
@@ -166,6 +167,7 @@ char getEvents(char b_wait)
             case SDLK_d:
                 key[9] = 0;
                 break;
+            case SDLK_y:
             case SDLK_z:
                 key[10] = 0;
                 break;
