@@ -1,16 +1,14 @@
 # SDLchip
 
-A simple cross-platform chip8 implementation written in c using the [SDL2](https://www.libsdl.org/) graphics library. 
+A simple cross-platform [chip8](https://en.wikipedia.org/wiki/CHIP-8) implementation written in c using the [SDL2](https://www.libsdl.org/) graphics library. 
 
-## precompiled executables
-* will be available in an upcoming release
-* the source is almost finished (just needs some polish), but should compile without any problems
-* !! check the releases tab for a static demo with preloaded Tetris.ch8 cartridge !!
+## Precompiled executables
+* check the releases tab
 
 ## How to compile
 * just use cmake :)
 
-## controls
+## Controls
 * **hexpad mapping**  
 1	2	3	C => 1   2   3   4  
 4	5	6	D => Q   W   E   R  
@@ -22,12 +20,16 @@ ESC - close
 P - pause  
 O - reset loaded cartridge
 
-* **terminal arguments**  
-aren't a part of the demo so will be here with the full release
+## How to run (this doesn't apply to the demo in 0.9)
+* get a chip8 cartridge file (.ch8) from the roms folder
+* run the executable from terminal with these arguments:  
+    * relative path of the rom  
+    * emu speed in Hz (optional)
+* if you're on windows you can instead drag and drop your rom file on the executable
 
-## additional features
+## Additional features
 * a python script to download sdl2 into the appropriate folder (if it seems like it's not doing anything, it's because SDL is quite a big library)
 * a python script for converting files to c strings (so they can be compiled as part of the binary) - used for the Tetris demo
 
-## pictures
-* coming soon
+## Pictures
+* ![running on linux](img/demo.png)

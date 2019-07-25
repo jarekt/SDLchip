@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14.5)
 
-project(SDL_demo LANGUAGES C VERSION 0.9)
+project(SDL_demo LANGUAGES C VERSION 1.0)
 
 
 add_executable(SDLchip main.c chip.c)

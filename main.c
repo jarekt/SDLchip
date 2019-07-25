@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "SDL/include/SDL.h"
 #include "chip.h"
-//#include "tetris.h"//include if you want a chip8 tetris executable
+//#include "tetris.h"//include if you want a standalone chip8 tetris executable
 
 #define COLOR_BLACK 0,0,0,0
 #define COLOR_WHITE 255,255,255,0
@@ -13,8 +13,8 @@ SDL_Event eve;
 
 int clock_speed = 500;
 char paused = 0;
-char key[16] = {0};
-char *filename;
+char key[16] = {0};//an array for keystate keeping
+const char *filename;
 
 #ifdef LOAD_STRING
 void loadString()//use for intro logo - after loading integrated or for nocart
@@ -223,6 +223,7 @@ void initMain()
     SDL_SetRenderDrawColor(ren, COLOR_BLACK);
     SDL_RenderClear(ren);
 }
+//inits SDL and the emu
 
 void mainloop()
 {
@@ -255,11 +256,10 @@ void mainloop()
 int main(int argc, char const *argv[])
 {
     #ifndef LOAD_STRING
-    //argc = 2;//
     if(argc < 2 || argc > 3)
     {
         puts("Usage:");
-        puts("expecting two arguments - a filename to open and a speed value for the emulator in Hz");
+        puts("expecting args - a filename to open and an emulator speed in Hz (optional)");
         puts("hex keypad mapping: ");
         puts("1|2|3|C    1|2|3|4");
         puts("4|5|6|D => Q|W|E|R");
