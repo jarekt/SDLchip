@@ -1,12 +1,12 @@
 #ifndef CHIP_H_
 #define CHIP_H_
 
-unsigned char memory[4096];
+extern unsigned char memory[4096];
 
-unsigned char timerS;
-unsigned char timerD;
+extern unsigned char timerS;
+extern unsigned char timerD;
 
-char key[16];
+extern char key[16];
 
 int readBit(int bit);
 //reads from gfx buffer
