@@ -5,8 +5,7 @@ self.addEventListener('install', function(event) {
                 '/',
                 'index.html',
                 'SDLchip.js',
-                'SDLchip.wasm',
-                // 'manifest.webmanifest'//shouldn't be needed
+                'SDLchip.wasm'
             ]);
         })
     );
