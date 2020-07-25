@@ -5,17 +5,16 @@ self.addEventListener('install', function(event) {
                 '/',
                 'index.html',
                 'SDLchip.js',
-                'SDLchip.wasm'
+                'SDLchip.wasm',
+                // 'manifest.webmanifest'//shouldn't be needed
             ]);
         })
     );
 });
 self.addEventListener('fetch', function(event) {
     event.respondWith(
-        caches.open('SDLchip').then(function(cache) {
-            return cache.match(event.request).then(function(response) {
-                return response;
-            });
+        caches.match(event.request).then(function(response) {
+            return response || fetch(event.request);
         })
     );
 });

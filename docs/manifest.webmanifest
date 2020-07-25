@@ -1,4 +1,5 @@
 {
+    "name": "SDLchip tetris ROM",
     "short_name": "Tetris ROM",
     "description": "Tetris ROM running under SDLchip",
     "icons": [
@@ -13,7 +14,7 @@
             "sizes": "192x192"
         }
     ],
-    "start_url": "/index.html",
+    "start_url": "index.html",
     "background_color": "#000000",
     "display": "standalone",
     "scope": "/",
