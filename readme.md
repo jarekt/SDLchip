@@ -1,12 +1,13 @@
 # SDLchip
 
 A simple cross-platform [chip8](https://en.wikipedia.org/wiki/CHIP-8) implementation written in c using the [SDL2](https://www.libsdl.org/) graphics library. 
+* now with emscripten support (desktop only) [demo pwa](jarekt.github.io/sdlchip/index.html)
 
 ## Precompiled executables
 * check the releases tab
 
 ## How to compile
-* just use cmake :)
+* just use cmake :) (tested with emscripten, gcc and visual studio)
 
 ## Controls
 * **hexpad mapping**  

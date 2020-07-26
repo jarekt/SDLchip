@@ -1,8 +1,25 @@
 #include <time.h>
 #include <stdio.h>
-#include "SDL/include/SDL.h"
+#include <stdlib.h>
 #include "chip.h"
-//#include "tetris.h"//include if you want a standalone chip8 tetris executable
+#ifdef __EMSCRIPTEN__
+#include "SDL.h"
+#include <emscripten.h>
+EM_JS(int, getWinHeight, (), {
+    return window.innerHeight
+});
+EM_JS(int, getWinWidth, (), {
+    return window.innerWidth
+});
+#else
+#include "SDL/include/SDL.h"
+#endif
+
+#ifdef EMBED_TETRIS
+#include "tetris.h"//include if you want a standalone chip8 tetris executable,
+extern const size_t import_string_size;
+extern const char import_string[import_string_size];
+#endif
 
 #define COLOR_BLACK 0,0,0,0
 #define COLOR_WHITE 255,255,255,0
@@ -16,11 +33,10 @@ char paused = 0;
 char key[16] = {0};//an array for keystate keeping
 const char *filename;
 
-#ifdef LOAD_STRING
+#ifdef EMBED_TETRIS
 void loadString()//use for intro logo - after loading integrated or for nocart
 {
-    size_t s = sizeof(import_string) / sizeof(import_string[0]);
-    for (int i = 0; i < s; i++)
+    for (int i = 0; i < import_string_size; i++)
     {
 
         memory[i+512] = import_string[i];
@@ -123,7 +139,7 @@ char getEvents(char b_wait)
                 break;
             case SDLK_o:
                 init();
-                #ifdef LOAD_STRING
+                #ifdef EMBED_TETRIS
                 loadString();
                 #else
                 loadFile(filename);
@@ -218,7 +234,7 @@ void initMain()
 {
     init();
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_CreateWindowAndRenderer(640, 320, SDL_WINDOW_RESIZABLE, &win, &ren);
+    SDL_CreateWindowAndRenderer(640*2, 320*2, SDL_WINDOW_RESIZABLE, &win, &ren);
     SDL_RenderSetLogicalSize(ren, 64, 32);
     SDL_SetRenderDrawColor(ren, COLOR_BLACK);
     SDL_RenderClear(ren);
@@ -227,35 +243,49 @@ void initMain()
 
 void mainloop()
 {
-    clock_t cycle_timer, sd_timer;
+    #ifdef __EMSCRIPTEN__//fix
+    if(!paused)
+    {
+        if(timerS > 0){timerS--;}
+        if(timerD > 0){timerD--;}
+        for (size_t i = 0; i < 500/60; i++)
+        {
+            fetch();
+            execute();
+        }
+        SDL_SetWindowSize(win, getWinWidth(), getWinHeight());
+        displayScreen();
+    }
+    getEvents(0);
+    #else
+    clock_t cycle_timer;
     cycle_timer = clock();
-    sd_timer = clock();
 
     while(1)
     {
         if(!paused)
         {
-            if (clock() - sd_timer >= CLOCKS_PER_SEC/60)//update timers
+            if (clock() - cycle_timer >= CLOCKS_PER_SEC/60)//update timers
             {
                 if(timerS > 0){timerS--;}
                 if(timerD > 0){timerD--;}
-                sd_timer = clock();
-            }
-            if(clock() - cycle_timer >= CLOCKS_PER_SEC/clock_speed)//exec cycle
-            {
-                if(!fetch()) {break;}
-                execute();
-                displayScreen();
                 cycle_timer = clock();
+                for (size_t i = 0; i < 500/60; i++)
+                {
+                    if(!fetch()){break;}
+                    execute();
+                }
+                displayScreen();
             }
         }
         getEvents(0);
     }
+    #endif
 }
 
 int main(int argc, char const *argv[])
 {
-    #ifndef LOAD_STRING
+    #ifndef EMBED_TETRIS
     if(argc < 2 || argc > 3)
     {
         puts("Usage:");
@@ -279,7 +309,11 @@ int main(int argc, char const *argv[])
     initMain();
     loadString();
     #endif
+    #ifdef __EMSCRIPTEN__
+    emscripten_set_main_loop(mainloop, 60, 1);
+    #else
     mainloop();
+    #endif
     quit();
     return 0;
 }
