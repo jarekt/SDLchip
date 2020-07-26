@@ -2,7 +2,6 @@ self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open('SDLchip').then(function(cache) {
             return cache.addAll([
-                '/',
                 'index.html',
                 'SDLchip.js',
                 'SDLchip.wasm'
