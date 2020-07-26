@@ -2,8 +2,8 @@
 file_name = "tetris.ch8"
 newfile_name = "tetris.h"
 
-start_string = '#define LOAD_STRING\nconst char import_string[] = {'
-end_string = '};'
+start_string = 'const char import_string[] = {'
+end_string = '};\nconst size_t import_string_size = sizeof(import_string) / sizeof(import_string[0]);\n//this is tetris.ch8 converted using my python script into a string'
 
 oldFile = open(file_name, "rb")
 oldFile = oldFile.read()
